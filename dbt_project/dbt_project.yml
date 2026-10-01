@@ -1,0 +1,29 @@
+name: 'enterprise_lakehouse_marts'
+version: '1.0.0'
+config-version: 2
+
+# Vincula o projeto ao perfil de conexão seguro (configurado no profiles.yml)
+profile: 'modern_lakehouse_profile'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# Configuração lógica e organização técnica dos modelos analíticos
+models:
+  enterprise_lakehouse_marts:
+    # Camada Staging: Limpeza básica e renomeação de campos com materialização em Views
+    staging:
+      +materialized: view
+      +schema: staging
+    # Camada Marts: Agregações de alto nível materializadas como tabelas otimizadas para BI
+    marts:
+      +materialized: table
+      +schema: marts
